@@ -14,7 +14,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 
 import { ItemsListComponent } from './items/list.component';
-
+import { BlueprintModalComponent } from './items/blueprint.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -26,6 +26,7 @@ const COMPONENTS = [
   CallbackComponent,
   UserLockComponent,
   ItemsListComponent,
+  BlueprintModalComponent,
 ];
 const COMPONENTS_NOROUNT = [];
 

@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
-import { _HttpClient } from '@delon/theme';
-import { pipe } from 'rxjs';
+import { ModalHelper, _HttpClient } from '@delon/theme';
+import { BlueprintModalComponent } from './blueprint.component';
 
 @Component({
   selector: 'app-items-list',
   templateUrl: './list.component.html',
 })
 export class ItemsListComponent implements OnInit {
-  params: any = { name: '' };
+  params: any = { name: '掘金者级' };
   data: any[] = [];
   page: any = {
     pi: 1,
@@ -29,11 +29,16 @@ export class ItemsListComponent implements OnInit {
       buttons: [
         { text: '更新', type: 'link', click: (item: any) => this.updatePrice(item.id), },
         { text: '常用', type: 'link', click: (item: any) => this.fav(item.id), },
+        { text: '登记蓝图', type: 'link', click: (item: any) => this.blueprint(item), },
+        { text: '查看蓝图', type: 'link', click: (item: any) => this.lookblueprint(item.id), },
       ],
     },
   ];
 
-  constructor(private http: _HttpClient) { }
+  constructor(
+    private http: _HttpClient,
+    private modalHelper: ModalHelper,
+  ) { }
 
   ngOnInit() {
     this.getData();
@@ -56,6 +61,23 @@ export class ItemsListComponent implements OnInit {
   fav(id) {
     this.http.get(`/fav/${id}`).subscribe((result: any) => {
       this.getData();
+    });
+  }
+
+  blueprint(item) {
+    this.modalHelper.create(BlueprintModalComponent, item).subscribe(res => {
+      const data = res.inputValue.trim().split('\n').map(m => m.split('\t'));
+      const num = res.num;
+      console.log(data);
+      this.http.post(`/addBlueprint/${item.id}`, { data, num }).subscribe((result: any) => {
+
+      });
+    });
+  }
+
+  lookblueprint(id){
+    this.modalHelper.create(BlueprintModalComponent, {id, look: true}).subscribe(res => {
+      
     });
   }
 

@@ -1,27 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Items', {
+    return queryInterface.createTable('Blueprints', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      fav: {
-        type: Sequelize.BOOLEAN
+      BlueId: {
+        type: Sequelize.INTEGER
       },
-      blue: {
-        type: Sequelize.BOOLEAN
+      ItemId: {
+        type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      input: {
+        type: Sequelize.INTEGER
       },
-      saleprice: {
-        type: Sequelize.FLOAT
-      },
-      buyprice: {
-        type: Sequelize.FLOAT
+      output: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Items');
+    return queryInterface.dropTable('Blueprints');
   }
 };

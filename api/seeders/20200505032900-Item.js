@@ -15,6 +15,7 @@ module.exports = {
           datas.push({
             id: sheet['data'][rowId][0],
             fav: false,
+            blue: false,
             name: sheet['data'][rowId][1],
             saleprice: 0,
             buyprice: 0,
