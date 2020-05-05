@@ -18,9 +18,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.get('/items', function (req, res) {
-    const { pi, ps, name } = req.query;
+    const { pi, ps, name, fav, blue } = req.query;
     let where = {}
     if (name) where.name = { [Op.substring]: name.trim() }
+    if (fav && JSON.parse(fav)) where.fav = true;
+    if (blue && JSON.parse(blue)) where.blue = true;
+    
     Item.findAndCountAll({
         where,
         offset: (pi - 1) * ps,

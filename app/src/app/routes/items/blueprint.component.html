@@ -19,7 +19,7 @@
         <th>吉它卖价</th>
         <!-- <th>吉它买价</th> -->
         <th>金额</th>
-        <th><a href="javascript:void(0)" (click)="updatePriceAll()">更新</a></th>
+        <th><a href="javascript:void(0)" (click)="updatePriceAll()">批量更新</a></th>
       </tr>
     </thead>
     <tbody>
@@ -28,7 +28,9 @@
         <td>{{data.input}}</td>
         <td>{{data.SubItem.saleprice}}</td>
         <td>{{data.input*data.SubItem.saleprice}}</td>
-        <td><a href="javascript:void(0)" (click)="updatePrice(data.SubItem.id)">更新</a></td>
+        <td>
+          <a href="javascript:void(0)" (click)="updatePrice(data.SubItem.id)">更新</a>
+        </td>
       </tr>
     </tbody>
   </nz-table>

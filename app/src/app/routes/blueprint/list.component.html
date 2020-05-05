@@ -1,7 +1,6 @@
 <page-header></page-header>
 <div class="mb-md">
     名称：<input nz-input [(ngModel)]="params.name" name="name" nzPlaceHolder="请输入名称" style="width: 100px;" class="mr-sm">
-    常用：<nz-switch [(ngModel)]="params.fav"></nz-switch>
     &nbsp;&nbsp;
     <button nz-button (click)="getData()" [nzType]="'primary'">搜索</button>
     <button nz-button (click)="params = {fav:true}; getData()">重置</button>

@@ -18,6 +18,7 @@ import { UserRegisterComponent } from './passport/register/register.component';
 
 
 import { ItemsListComponent } from './items/list.component';
+import { BlueprintListComponent } from './blueprint/list.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
       { path: 'items', component: ItemsListComponent, data: { title: '物品列表', titleI18n: 'items'  } },
+      { path: 'blueprint', component: BlueprintListComponent, data: { title: '蓝图列表', titleI18n: 'blueprint'  } },
     ]
   },
   // 全屏布局

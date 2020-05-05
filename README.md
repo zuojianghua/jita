@@ -12,3 +12,6 @@ npx sequelize-cli seed:generate --name Item
 
 npx sequelize-cli model:generate --name Blueprint --attributes BlueId:INTEGER,ItemId:INTEGER,input:INTEGER,output:INTEGER
 npx sequelize-cli seed:generate --name Blueprint
+
+npx sequelize-cli model:generate --name Material --attributes BlueId:INTEGER,ItemId:INTEGER,input:INTEGER
+npx sequelize-cli seed:generate --name Material
