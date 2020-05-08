@@ -19,6 +19,7 @@ module.exports = {
             name: sheet['data'][rowId][1],
             saleprice: 0,
             buyprice: 0,
+            makeprice: 0,
             createdAt: times,
             updatedAt: times
           })

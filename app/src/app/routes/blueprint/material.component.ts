@@ -30,27 +30,36 @@ export class MaterialModalComponent implements OnInit {
     }
 
     getData() {
-        this.http.get(`/getBlueprint/${this.id}`).subscribe((result: any) => {
-            this.listData = result.Blueprints;
-            this.comp();
+        this.http.get(`/getMaterial/${this.id}`).subscribe((result: any) => {
+            this.listData = result;
         });
     }
 
-    updatePriceAll() {
-        this.listData.forEach(f => {
-            this.updatePrice(f.ItemId);
-        })
-    }
-
-    updatePrice(id) {
-        this.http.get(`/updatePrice/${id}`).subscribe((result: any) => {
+    // 从蓝图导入原材料
+    resetMaterial() {
+        console.log(this.id);
+        this.http.get(`/resetMaterial/${this.id}`).subscribe((result: any) => {
+            console.log(result);
+            this.modal.success({ nzTitle: '完成' });
             this.getData();
         });
     }
 
+    // 拆分某项原料
+    splitMaterial(id) {
+        this.http.get(`/splitMaterial/${this.id}/${id}`).subscribe((result: any) => {
+            console.log(result);
+            this.getData();
+        });
+    }
+
+    // 制造成本计算并回写
     comp() {
-        this.costPrice = 0;
-        this.listData.forEach(f => this.costPrice = this.costPrice + (f.input * f.SubItem.saleprice));
+        this.http.get(`/compPrice/${this.id}`).subscribe((result: any) => {
+            console.log(result);
+            this.modal.success({ nzTitle: '完成' });
+            this.getData();
+        });
     }
 
     ok() {

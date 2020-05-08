@@ -17,16 +17,18 @@ export class BlueprintModalComponent implements OnInit {
 
     }
 
+    @Input() name: any; 
+    @Input() saleprice: any;
     @Input() id: any;
     @Input() look: any = false;
-    inputValue: any;
+    inputValue: any;    // 输入的蓝图字符串
     num: any = 1;
     listData: any[] = [];
 
     costPrice = 0;
 
     ngOnInit() {
-        console.log(this.id);
+        console.log(this.id, this.saleprice);
         if (this.id) { this.getData(); }
     }
 
@@ -40,7 +42,7 @@ export class BlueprintModalComponent implements OnInit {
     updatePriceAll() {
         this.listData.forEach(f => {
             this.updatePrice(f.ItemId);
-        })
+        });
     }
 
     updatePrice(id) {

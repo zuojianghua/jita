@@ -1,5 +1,6 @@
 <div class="modal-header">
-  <div class="modal-title">蓝图 {{costPrice}}</div>
+  <div class="modal-title" [ngStyle]="{'background-color':saleprice > costPrice ? 'green' : 'red' }">{{name}}蓝图：售价{{saleprice}}
+    毛成本{{costPrice}}</div>
 </div>
 
 <ng-container *ngIf="!look">
@@ -11,29 +12,29 @@
 </ng-container>
 
 <!-- <ng-container *ngIf="look"> -->
-  <nz-table #basicTable [nzData]="listData" [nzFrontPagination]='false' nzSize="small">
-    <thead>
-      <tr>
-        <th>名称</th>
-        <th>数量</th>
-        <th>吉它卖价</th>
-        <!-- <th>吉它买价</th> -->
-        <th>金额</th>
-        <th><a href="javascript:void(0)" (click)="updatePriceAll()">批量更新</a></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>{{data.SubItem.name}}</td>
-        <td>{{data.input}}</td>
-        <td>{{data.SubItem.saleprice}}</td>
-        <td>{{data.input*data.SubItem.saleprice}}</td>
-        <td>
-          <a href="javascript:void(0)" (click)="updatePrice(data.SubItem.id)">更新</a>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
+<nz-table #basicTable [nzData]="listData" [nzFrontPagination]='false' nzSize="small">
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th>数量</th>
+      <th>吉它卖价</th>
+      <!-- <th>吉它买价</th> -->
+      <th>金额</th>
+      <th><a href="javascript:void(0)" (click)="updatePriceAll()">批量更新</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{data.SubItem.name}}</td>
+      <td>{{data.input}}</td>
+      <td>{{data.SubItem.saleprice}}</td>
+      <td>{{data.input*data.SubItem.saleprice}}</td>
+      <td>
+        <a href="javascript:void(0)" (click)="updatePrice(data.SubItem.id)">更新</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
 <!-- </ng-container> -->
 
 <div class="modal-footer">

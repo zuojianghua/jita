@@ -15,10 +15,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       input: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DOUBLE
       },
       output: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DOUBLE
       },
       createdAt: {
         allowNull: false,

@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Blueprint = sequelize.define('Blueprint', {
     BlueId: DataTypes.INTEGER,
     ItemId: DataTypes.INTEGER,
-    input: DataTypes.INTEGER,
-    output: DataTypes.INTEGER
+    input: DataTypes.DOUBLE,
+    output: DataTypes.DOUBLE
   }, {});
   Blueprint.associate = function (models) {
     // associations can be defined here

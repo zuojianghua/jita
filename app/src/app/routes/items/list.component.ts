@@ -8,11 +8,11 @@ import { BlueprintModalComponent } from './blueprint.component';
   templateUrl: './list.component.html',
 })
 export class ItemsListComponent implements OnInit {
-  params: any = { name: '', fav: true, };
+  params: any = { name: '', fav: true, blue: true, };
   data: any[] = [];
   page: any = {
     pi: 1,
-    ps: 10,
+    ps: 20,
   };
   total = 0;
 
@@ -20,8 +20,8 @@ export class ItemsListComponent implements OnInit {
   columns: STColumn[] = [
     { title: '编号', index: 'id', default: '-' },
     { title: '名称', index: 'name', },
-    { title: '吉它卖价', index: 'saleprice' },
-    { title: '吉它收价', index: 'buyprice' },
+    { title: '吉它卖价', index: 'saleprice', type: 'currency' },
+    { title: '吉它收价', index: 'buyprice', type: 'currency' },
     { title: '常用', index: 'fav', type: 'yn', width: 60 },
     { title: '蓝图', index: 'blue', type: 'yn', width: 60 },
     { title: '最近更新时间', index: 'updatedAt', type: 'date' },
@@ -31,7 +31,7 @@ export class ItemsListComponent implements OnInit {
         { text: '更新', type: 'link', click: (item: any) => this.updatePrice(item.id), },
         { text: '常用', type: 'link', click: (item: any) => this.fav(item.id), },
         { text: '登记蓝图', type: 'link', click: (item: any) => this.blueprint(item), },
-        { text: '查看蓝图', type: 'link', click: (item: any) => this.lookblueprint(item.id), },
+        { text: '查看蓝图', type: 'link', click: (item: any) => this.lookblueprint(item), },
       ],
     },
   ];
@@ -76,8 +76,8 @@ export class ItemsListComponent implements OnInit {
     });
   }
 
-  lookblueprint(id){
-    this.modalHelper.create(BlueprintModalComponent, {id, look: true}).subscribe(res => {
+  lookblueprint(item){
+    this.modalHelper.create(BlueprintModalComponent, {id: item.id, saleprice: item.saleprice, name: item.name, look: true}).subscribe(res => {
       
     });
   }

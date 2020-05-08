@@ -23,6 +23,9 @@ module.exports = {
       buyprice: {
         type: Sequelize.FLOAT
       },
+      makeprice: {
+        type: Sequelize.FLOAT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
