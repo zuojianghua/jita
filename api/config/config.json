@@ -3,7 +3,7 @@
     "username": "root",
     "password": "123456",
     "database": "jita",
-    "host": "localhost",
+    "host": "192.168.0.108",
     "port": 5432,
     "dialect": "postgres",
     "pool": {
@@ -25,7 +25,7 @@
     "username": "root",
     "password": "123456",
     "database": "jita",
-    "host": "192.168.0.108",
+    "host": "db",
     "port": 5432,
     "dialect": "postgres",
     "pool": {
