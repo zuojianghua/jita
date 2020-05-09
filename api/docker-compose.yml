@@ -1,0 +1,33 @@
+version: '3'
+services:
+  api:
+    image: "node:latest"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=pi
+    ports:
+      - "3002:3002"
+    networks:
+      - swarmNet
+    volumes:
+      - /home/pi/jita:/home/node/app
+    command: "npm start"
+  db:
+    image: "postgres:12.1-alpine"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: jita
+      # PGDATA: pgData:/var/lib/postgresql/data
+    volumes:
+        - pgData:/var/lib/postgresql/data
+    networks:
+        - swarmNet
+volumes:
+  pgData:
+networks:
+  swarmNet:
+    driver: overlay

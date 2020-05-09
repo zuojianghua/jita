@@ -1,10 +1,38 @@
 {
   "development": {
     "username": "root",
+    "password": "123456",
+    "database": "jita",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres",
+    "pool": {
+      "max": 10,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
+  },
+  "test": {
+    "username": "root",
     "password": null,
     "database": "database_development",
     "host": "127.0.0.1",
     "dialect": "sqlite",
     "storage": "C:/code/jita/api/database/database.sqlite"
+  },
+  "pi": {
+    "username": "root",
+    "password": "123456",
+    "database": "jita",
+    "host": "192.168.0.108",
+    "port": 5432,
+    "dialect": "postgres",
+    "pool": {
+      "max": 10,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   }
 }

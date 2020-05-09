@@ -16,13 +16,17 @@ npx sequelize-cli seed:generate --name Blueprint
 npx sequelize-cli model:generate --name Material --attributes BlueId:INTEGER,ItemId:INTEGER,input:DOUBLE
 npx sequelize-cli seed:generate --name Material
 
-//TODO 
-# 原料部分
-[*] 原料从蓝图导入
-[*] 原料继续拆分
-* 回写成本价
-* 利润计算
-* 发明蓝图成本
-# 生产计划
-* 生产计划列表
-* 原料统计导出
+# TODO LIST
+## 原料部分
+* [X] 原料从蓝图导入
+* [X] 原料继续拆分
+* [X] 回写成本价
+* [] 利润计算
+* [] 发明蓝图成本
+## 生产计划
+* [] 生产计划列表
+* [] 原料统计导出
+
+# DB
+// /Users/zuojianghua/Code/jita/api/database/database.sqlite
+// C:/code/jita/api/database/database.sqlite

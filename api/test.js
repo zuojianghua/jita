@@ -20,3 +20,8 @@ Blueprint.findAll().then(result => {
         console.log('The file has been saved!');
     });
 })
+
+
+var crypto = require('crypto');
+const pass = crypto.createHash('md5').update('123456').digest('hex');
+console.log(pass)

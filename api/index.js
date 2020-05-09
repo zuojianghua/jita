@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const request = require('request');
+const compression = require('compression');
 var _ = require('lodash');
+var crypto = require('crypto');
 
 const { Item, Blueprint, Material, Sequelize, sequelize } = require('./models')
 const { Op } = Sequelize;
@@ -16,6 +18,26 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
+
+app.post('/login/account', function (req, res) {
+    const data = req.body;
+    const pass = crypto.createHash('md5').update(data.password).digest('hex');
+    console.log(pass)
+    if (!(data.userName === 'zuozuo' || data.userName === 'user') || pass !== '7e8b9602c316bb5e07e2aae8771971f7') {
+        res.status(400).send(`失败`);
+    }
+    res.json({
+        msg: 'ok',
+        user: {
+            token: '123456789',
+            name: data.userName,
+            email: `hahaha@qq.com`,
+            id: 10000,
+            time: +new Date(),
+        },
+    })
+})
 
 // 物品列表
 app.get('/items', function (req, res) {
@@ -25,13 +47,20 @@ app.get('/items', function (req, res) {
     if (fav && JSON.parse(fav)) where.fav = true;
     if (blue && JSON.parse(blue)) where.blue = true;
 
-    Item.findAndCountAll({
-        where,
-        offset: (pi - 1) * ps,
-        limit: ps,
-    }).then(result => {
-        res.json(result)
-    })
+    console.log('接到请求',where)
+    try {
+        Item.findAndCountAll({
+            where,
+            offset: (pi - 1) * ps,
+            limit: ps,
+        }).then(result => {
+            res.json(result)
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(`请求失败`);
+    }
+    
 });
 
 // 更新物品价格
@@ -198,15 +227,47 @@ app.get('/compPrice/:id', async function (req, res) {
     })
 })
 
+app.use('/', express.static('app'));
+app.listen(3002, () => console.log(`Example app listening on port 3002!`))
 
-app.listen(3000, () => console.log(`Example app listening on port 3000!`))
+// 启动后的任务
 
 // 刷新蓝图状态
-Blueprint.findAll({attributes:[
-    [sequelize.fn('distinct', sequelize.col('BlueId')), 'BlueId']
-]}).then((result)=>{
-    const ids = result.map(m=>m.dataValues.BlueId)
-    Item.update({blue:true},{where:{id:{
-        [Op.in]: ids,
-    }}})
+Blueprint.findAll({
+    attributes: [
+        [sequelize.fn('distinct', sequelize.col('BlueId')), 'BlueId']
+    ]
+}).then((result) => {
+    const ids = result.map(m => m.dataValues.BlueId)
+    console.log('待刷新蓝图', ids);
+    Item.update({ blue: true }, {
+        where: {
+            id: {
+                [Op.in]: ids,
+            }
+        }
+    })
 })
+
+
+// 修复pg自增主键
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/config/config.json')[env];
+console.log('当前环境:',env);
+const fixPostgres = async () => {
+    if (config.dialect != 'postgres') return;
+    // 每次服务启动后, 手动检查和修复postgres批量导入数据或拷贝数据后seq自增序列不会更新的问题
+    const tb_name = [
+        'Items', 'Blueprints', 'Materials',
+    ];
+    let sql = '';
+    for (let index = 0; index < tb_name.length; index++) {
+        const element = tb_name[index];
+        sql += `SELECT setval('"${element}_id_seq"', (SELECT max(id) FROM "${element}"));`;
+    }
+    console.log('检查postgres自增序列', sql)
+    await sequelize.query(sql);
+    // await sequelize.query(`SELECT setval('"GoodsInfos_id_seq"', (SELECT max(id) FROM "GoodsInfos"))`);
+    console.log('检查postgres自增序列完毕')
+}
+fixPostgres()
