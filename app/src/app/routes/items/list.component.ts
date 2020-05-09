@@ -8,7 +8,7 @@ import { BlueprintModalComponent } from './blueprint.component';
   templateUrl: './list.component.html',
 })
 export class ItemsListComponent implements OnInit {
-  params: any = { name: '', fav: true, blue: true, };
+  params: any = { name: '', fav: false, blue: false, };
   data: any[] = [];
   page: any = {
     pi: 1,
