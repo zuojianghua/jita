@@ -228,6 +228,63 @@ app.get('/compPrice/:id', async function (req, res) {
     })
 })
 
+// 计算生产计划
+app.post('/product', async function (req, res) {
+    const data = req.body;
+    const dataObj = {};
+    // 生成物品=>数量键值对
+    data.forEach(d => {
+        dataObj[d[0]] = d[1];
+    })
+    // console.log('键值对', dataObj)
+    // 查找商品
+    const items = await Item.findAll({
+        where: {
+            name: { [Op.in]: data.map(m => m[0]) }
+        }
+    })
+    let itemsData = items.map(m => m.dataValues);
+
+    let totalSaleprice = 0;
+    itemsData.forEach((v, i) => {
+        itemsData[i].num = +dataObj[v.name];
+        totalSaleprice = totalSaleprice + (itemsData[i].num * itemsData[i].saleprice);
+    })
+
+    // console.log('总价值', totalSaleprice)
+
+    // 查找原材料
+    const materials = await Material.findAll({
+        where: {
+            BlueId: { [Op.in]: itemsData.map(m => m.id) }
+        },
+        include: [{ model: Item, as: 'SubItem' }],
+    })
+    let materialsData = materials.map(m => m.dataValues);
+    let materialsObj = {}
+    materialsData.forEach(m => {
+        if (!materialsObj[m.ItemId]) {
+            materialsObj[m.ItemId] = m;
+            materialsObj[m.ItemId].num = m.input * itemsData.find(f => f.id == m.BlueId).num;
+        } else {
+            materialsObj[m.ItemId].num = materialsObj[m.ItemId].num + (m.input * itemsData.find(f => f.id == m.BlueId).num);
+        }
+    })
+    let totalBuyprice = 0;
+    const outputData = Object.values(materialsObj);
+    // console.log(outputData)
+    outputData.forEach(m => {
+        totalBuyprice = totalBuyprice + (m.num * m.SubItem.dataValues.saleprice);
+    })
+
+    res.json({
+        totalSaleprice,
+        totalBuyprice,
+        items: itemsData,
+        data: outputData,
+    })
+})
+
 app.use('/', express.static('app'));
 app.listen(3002, () => console.log(`Example app listening on port 3002!`))
 
@@ -288,7 +345,7 @@ const fixPostgres = async () => {
 fixPostgres()
 
 
-const updatePirce = (id)=>{
+const updatePirce = (id) => {
     const url = `https://esi.evepc.163.com/latest/markets/10000002/orders/?datasource=serenity&order_type=sell&page=1&type_id=${id}`;
     const url2 = `https://esi.evepc.163.com/latest/markets/10000002/orders/?datasource=serenity&order_type=buy&page=1&type_id=${id}`;
     request(url, function (error, response, body) {

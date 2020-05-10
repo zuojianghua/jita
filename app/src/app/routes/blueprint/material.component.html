@@ -22,8 +22,8 @@
     <tr *ngFor="let data of basicTable.data">
       <td>{{data.SubItem.name}}</td>
       <td>{{data.input}}</td>
-      <td>{{data.SubItem.saleprice | currency }}</td>
-      <td>{{data.input*data.SubItem.saleprice | currency }}</td>
+      <td>{{data.SubItem.saleprice | currency:'CNY' }}</td>
+      <td>{{data.input*data.SubItem.saleprice | currency:'CNY' }}</td>
       <td>
         <a *ngIf="data.SubItem.blue" href="javascript:void(0)" (click)="splitMaterial(data.id)">继续拆分</a>
       </td>

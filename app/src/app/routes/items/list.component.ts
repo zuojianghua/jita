@@ -67,7 +67,7 @@ export class ItemsListComponent implements OnInit {
 
   blueprint(item) {
     this.modalHelper.create(BlueprintModalComponent, item).subscribe(res => {
-      const data = res.inputValue.trim().split('\n').map(m => m.split('\t'));
+      const data = res.inputValue.trim().split('\n').map(m => m.split('\t')).filter(f => f[0] !== '总共：');
       const num = res.num;
       console.log(data);
       this.http.post(`/addBlueprint/${item.id}`, { data, num }).subscribe((result: any) => {

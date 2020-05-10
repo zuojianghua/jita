@@ -1,13 +1,13 @@
 <div class="modal-header">
-  <div class="modal-title" [ngStyle]="{'background-color':saleprice > costPrice ? 'green' : 'red' }">{{name}}蓝图：售价{{saleprice}}
-    毛成本{{costPrice}}</div>
+  <div class="modal-title" [ngStyle]="{'background-color':saleprice > costPrice ? 'green' : 'red' }">{{name}}：售价{{saleprice | currency:'CNY'}}
+    毛成本{{costPrice | currency:'CNY'}}</div>
 </div>
 
 <ng-container *ngIf="!look">
   <label>每流程产出</label>
   <nz-input-number [(ngModel)]="num" [nzMin]="1" [nzStep]="1"></nz-input-number>
   <br>
-  <textarea rows="4" nz-input [(ngModel)]="inputValue"></textarea>
+  <textarea rows="10" nz-input [(ngModel)]="inputValue"></textarea>
   <nz-divider></nz-divider>
 </ng-container>
 
@@ -27,8 +27,8 @@
     <tr *ngFor="let data of basicTable.data">
       <td>{{data.SubItem.name}}</td>
       <td>{{data.input}}</td>
-      <td>{{data.SubItem.saleprice}}</td>
-      <td>{{data.input*data.SubItem.saleprice}}</td>
+      <td>{{data.SubItem.saleprice | currency:'CNY'}}</td>
+      <td>{{data.input*data.SubItem.saleprice | currency:'CNY'}}</td>
       <td>
         <a href="javascript:void(0)" (click)="updatePrice(data.SubItem.id)">更新</a>
       </td>

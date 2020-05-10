@@ -17,6 +17,7 @@ import { BlueprintListComponent } from './blueprint/list.component';
 import { MaterialModalComponent } from './blueprint/material.component';
 import { BlueprintModalComponent } from './items/blueprint.component';
 import { ItemsListComponent } from './items/list.component';
+import { ProductComponent} from './product/product.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -31,6 +32,7 @@ const COMPONENTS = [
   BlueprintListComponent,
   BlueprintModalComponent,
   MaterialModalComponent,
+  ProductComponent,
 ];
 const COMPONENTS_NOROUNT = [];
 

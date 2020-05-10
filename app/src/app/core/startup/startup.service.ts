@@ -102,8 +102,8 @@ export class StartupService {
             shortcutRoot: true
           },
           {
-            text: '原料',
-            link: '/dashboard',
+            text: '生产计划',
+            link: '/product',
             icon: { type: 'icon', value: 'rocket' },
             shortcutRoot: true
           },

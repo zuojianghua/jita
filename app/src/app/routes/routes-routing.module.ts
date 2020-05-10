@@ -19,7 +19,7 @@ import { UserRegisterComponent } from './passport/register/register.component';
 
 import { BlueprintListComponent } from './blueprint/list.component';
 import { ItemsListComponent } from './items/list.component';
-
+import { ProductComponent} from './product/product.component';
 
 const routes: Routes = [
   {
@@ -34,7 +34,8 @@ const routes: Routes = [
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
       { path: 'items', component: ItemsListComponent, data: { title: '物品列表', titleI18n: 'items'  } },
       { path: 'blueprint', component: BlueprintListComponent, data: { title: '蓝图列表', titleI18n: 'blueprint'  } },
-      
+      { path: 'product', component: ProductComponent, data: { title: '生产计划', titleI18n: 'product'  } },
+
     ]
   },
   // 全屏布局
