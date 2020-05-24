@@ -1,4 +1,4 @@
-const { Item, Material, Blueprint, Sequelize } = require('./models')
+const { Item, Material, Blueprint, Invention, Sequelize } = require('./models')
 const { Op } = Sequelize;
 const fs = require('fs');
 
