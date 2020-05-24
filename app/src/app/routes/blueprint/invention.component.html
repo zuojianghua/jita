@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <div class="modal-title">发明</div>
+</div>
+
+<button nz-button nzType="primary" (click)="comp()">核算发明成本</button>
+<nz-divider></nz-divider>
+<form nz-form #f="ngForm" se-container="1" labelWidth="100">
+    <se label="核心" required>
+        <nz-select [(ngModel)]="data.core1" required style="width: 200px;" name="core1">
+            <nz-option *ngFor="let core of cores" [nzValue]="core.id" [nzLabel]="core.name"></nz-option>
+        </nz-select>
+        <nz-input-number [(ngModel)]="data.core1num" name="core1num" required></nz-input-number>
+    </se>
+    <se label="核心" required>
+        <nz-select [(ngModel)]="data.core2" required style="width: 200px;" name="core2">
+            <nz-option *ngFor="let core of cores" [nzValue]="core.id" [nzLabel]="core.name"></nz-option>
+        </nz-select>
+        <nz-input-number [(ngModel)]="data.core2num" name="core2num" required></nz-input-number>
+    </se>
+    <se label="解码器">
+        <nz-select [(ngModel)]="data.decoder" style="width: 200px;" name="decoder">
+            <nz-option *ngFor="let decoder of decoders" [nzValue]="decoder.id" [nzLabel]="decoder.name"></nz-option>
+        </nz-select>
+    </se>
+    <se label="成功率">
+        <nz-input-number [(ngModel)]="data.rate" name="rate" required></nz-input-number>
+    </se>
+    <se label="产出流程">
+        <nz-input-number [(ngModel)]="data.output" name="output" required></nz-input-number>
+    </se>
+</form>
+
+<div class="modal-footer">
+    <button nz-button nzType="default" (click)="cancel()">Cancel</button>
+    <button nz-button nzType="primary" (click)="ok()">OK</button>
+</div>

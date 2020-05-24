@@ -13,14 +13,32 @@ const fs = require('fs');
 //     console.log(result)
 // })
 
+// 蓝图备份
 Blueprint.findAll().then(result => {
     const txt = JSON.stringify(result.map(m => m.dataValues))
     fs.writeFile('./seeders/Blueprint.json', txt, 'utf8', (err) => {
         if (err) console.log(err);
-        console.log('The file has been saved!');
+        console.log('蓝图备份完成!');
     });
 })
 
+// 原材料备份
+Material.findAll().then(result => {
+    const txt = JSON.stringify(result.map(m => m.dataValues))
+    fs.writeFile('./seeders/Material.json', txt, 'utf8', (err) => {
+        if (err) console.log(err);
+        console.log('原材料备份完成!');
+    });
+})
+
+// 发明备份
+Invention.findAll().then(result => {
+    const txt = JSON.stringify(result.map(m => m.dataValues))
+    fs.writeFile('./seeders/Invention.json', txt, 'utf8', (err) => {
+        if (err) console.log(err);
+        console.log('发明备份完成!');
+    });
+})
 
 var crypto = require('crypto');
 const pass = crypto.createHash('md5').update('123456').digest('hex');

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { InventionModalComponent } from './invention.component';
 import { MaterialModalComponent } from './material.component';
 
 @Component({
@@ -22,6 +23,7 @@ export class BlueprintListComponent implements OnInit {
     { title: '名称', index: 'name', },
     { title: '成品价格', index: 'saleprice', type: 'currency' },
     { title: '制造成本', index: 'makeprice', type: 'currency' },
+    { title: '发明成本', index: 'invprice', type: 'currency' },
     // { title: '常用', index: 'fav', type: 'yn', width: 60 },
     // { title: '蓝图', index: 'blue', type: 'yn', width: 60 },
     // { title: '最近更新时间', index: 'updatedAt', type: 'date' },
@@ -29,8 +31,8 @@ export class BlueprintListComponent implements OnInit {
       title: '操作',
       buttons: [
         { text: '拆分原料', type: 'link', click: (item: any) => this.blueprint(item.id), },
-        { text: '计算成本', type: 'link', click: (item: any) => this.updatePrice(item.id), },
-        // { text: '常用', type: 'link', click: (item: any) => this.fav(item.id), },
+        { text: '制造成本', type: 'link', click: (item: any) => this.updatePrice(item.id), },
+        { text: '发明成本', type: 'link', click: (item: any) => this.invention(item.id), },
         // { text: '登记蓝图', type: 'link', click: (item: any) => this.blueprint(item), },
         // { text: '查看蓝图', type: 'link', click: (item: any) => this.lookblueprint(item.id), },
       ],
@@ -68,8 +70,13 @@ export class BlueprintListComponent implements OnInit {
 
   // 拆分材料
   blueprint(id) {
-    this.modalHelper.create(MaterialModalComponent, { id }).subscribe(res => {
+    this.modalHelper.create(MaterialModalComponent, { id }).subscribe(res => {});
+  }
 
+  // 设定发明成本
+  invention(id){
+    this.modalHelper.create(InventionModalComponent, { id }).subscribe(res => {
+      console.log('发明成本设定完毕');
     });
   }
 

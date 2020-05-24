@@ -91,33 +91,55 @@ export class StartupService {
         children: [
           {
             text: '价格查询',
-            link: '/items',
+            group: true,
             icon: { type: 'icon', value: 'appstore' },
-            shortcutRoot: true,
+            children: [
+              {
+                text: '全部',
+                link: '/items',
+                shortcutRoot: true,
+              },
+              {
+                text: '矿物',
+                link: '/items/1',
+                shortcutRoot: true,
+              },
+              {
+                text: 'T2组件',
+                link: '/items/2',
+                shortcutRoot: true,
+              },
+            ]
           },
           {
             text: '蓝图',
             link: '/blueprint',
-            icon: { type: 'icon', value: 'rocket' },
+            icon: { type: 'icon', value: 'copy' },
             shortcutRoot: true
           },
           {
             text: '生产计划',
             link: '/product',
-            icon: { type: 'icon', value: 'rocket' },
+            icon: { type: 'icon', value: 'calendar' },
             shortcutRoot: true
           },
           {
-            text: '发明',
-            link: '/dashboard',
+            text: '选品',
+            group: true,
             icon: { type: 'icon', value: 'rocket' },
-            shortcutRoot: true
+            children: [
+              {
+                text: '小型舰船',
+                link: '/pick/1',
+                shortcutRoot: true,
+              },
+            ]
           },
         ]
       }
     ]);
     // Can be set page suffix title, https://ng-alain.com/theme/title
-    
+
     this.titleService.suffix = app.name;
 
     resolve({});

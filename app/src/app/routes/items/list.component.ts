@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { switchMap } from 'rxjs/operators';
+import { MaterialModalComponent } from '../blueprint/material.component';
 import { BlueprintModalComponent } from './blueprint.component';
 
 @Component({
@@ -8,13 +11,14 @@ import { BlueprintModalComponent } from './blueprint.component';
   templateUrl: './list.component.html',
 })
 export class ItemsListComponent implements OnInit {
-  params: any = { name: '', fav: false, blue: false, };
+  params: any = { name: '', fav: false, blue: false, ids: [] };
   data: any[] = [];
-  page: any = {
-    pi: 1,
-    ps: 20,
-  };
+  page: any = { pi: 1, ps: 20, };
   total = 0;
+  types = {
+    1: [34, 35, 36, 37, 38, 39, 40, 11399],
+    2: [11530, 11531, 11532, 11533, 11534, 11535, 11536, 11537, 11538, 11539, 11540, 11541, 11542, 11543, 11544, 11545, 11547, 11548, 11549, 11550, 11551, 11552, 11553, 11554, 11555, 11556, 11557, 11558, 11688, 11689, 11690, 11691, 11692, 11693, 11694, 11695],
+  };
 
   @ViewChild('st', { static: false }) private st: STComponent;
   columns: STColumn[] = [
@@ -32,17 +36,29 @@ export class ItemsListComponent implements OnInit {
         { text: '常用', type: 'link', click: (item: any) => this.fav(item.id), },
         { text: '登记蓝图', type: 'link', click: (item: any) => this.blueprint(item), },
         { text: '查看蓝图', type: 'link', click: (item: any) => this.lookblueprint(item), },
+        { text: '拆分材料', type: 'link', click: (item: any) => this.material(item.id), },
       ],
     },
   ];
 
+
   constructor(
     private http: _HttpClient,
     private modalHelper: ModalHelper,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.getData();
+    // const id = this.route.snapshot.paramMap.get('id');
+    // console.log(id);
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      console.log(id);
+      if (id) { this.params.ids = this.types[id]; }
+      this.getData();
+    });
+    
   }
 
   getData() {
@@ -76,10 +92,15 @@ export class ItemsListComponent implements OnInit {
     });
   }
 
-  lookblueprint(item){
-    this.modalHelper.create(BlueprintModalComponent, {id: item.id, saleprice: item.saleprice, name: item.name, look: true}).subscribe(res => {
-      
+  lookblueprint(item) {
+    this.modalHelper.create(BlueprintModalComponent, { id: item.id, saleprice: item.saleprice, name: item.name, look: true }).subscribe(res => {
+
     });
+  }
+
+  // 拆分材料
+  material(id) {
+    this.modalHelper.create(MaterialModalComponent, { id }).subscribe(res => { });
   }
 
   onChange(e) {

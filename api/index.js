@@ -10,7 +10,7 @@ const compression = require('compression');
 var _ = require('lodash');
 var crypto = require('crypto');
 
-const { Item, Blueprint, Material, Sequelize, sequelize } = require('./models')
+const { Item, Blueprint, Material, Invention, Sequelize, sequelize } = require('./models')
 const { Op } = Sequelize;
 
 const app = express();
@@ -41,11 +41,12 @@ app.post('/login/account', function (req, res) {
 
 // 物品列表
 app.get('/items', function (req, res) {
-    const { pi, ps, name, fav, blue } = req.query;
+    const { pi, ps, name, fav, blue, ids } = req.query;
     let where = {}
     if (name) where.name = { [Op.substring]: name.trim() }
     if (fav && JSON.parse(fav)) where.fav = true;
     if (blue && JSON.parse(blue)) where.blue = true;
+    if (ids && ids.length>0) where.id = { [Op.in]: ids }
 
     console.log('接到请求', where)
     try {
@@ -54,6 +55,27 @@ app.get('/items', function (req, res) {
             offset: (pi - 1) * ps,
             limit: ps,
             order: [['updatedAt', 'DESC']]
+        }).then(result => {
+            res.json(result)
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(`请求失败`);
+    }
+
+});
+
+// 选品列表
+app.post('/pick', function (req, res) {
+    const ids = req.body;
+    let where = {}
+    where.id = { [Op.in]: ids.length ? ids : [0] }
+
+    console.log('接到请求', where)
+
+    try {
+        Item.findAll({
+            where,
         }).then(result => {
             res.json(result)
         })
@@ -150,6 +172,16 @@ app.get('/getBlueprint/:id', function (req, res) {
 })
 
 // 获取物品材料信息
+app.get('/getInvention/:id', function (req, res) {
+    const { id } = req.params;
+    Invention.findOne({
+        where: { BlueId: id },
+    }).then(result => {
+        res.json(result)
+    })
+})
+
+// 获取物品发明信息
 app.get('/getMaterial/:id', function (req, res) {
     const { id } = req.params;
     Material.findAll({
@@ -228,6 +260,36 @@ app.get('/compPrice/:id', async function (req, res) {
     })
 })
 
+// 计算发明成本并回写
+app.post('/invPrice/:id', async function (req, res) {
+    const { id } = req.params;
+    const data = req.body;
+    data.BlueId = id;
+    // 保存发明材料信息
+    const inv = await Invention.create(data)
+
+    // 找到核心价格
+    let price = 0;
+    const core1 = await Item.findByPk(data.core1)
+    price = price + (core1.buyprice * data.core1num);
+
+    const core2 = await Item.findByPk(data.core2)
+    price = price + (core2.buyprice * data.core2num);
+
+    if (data.decoder) {
+        const decoder = await Item.findByPk(data.decoder)
+        price = price + decoder.buyprice;
+    }
+
+    // 除以发明成功率和流程数
+    price = (price / data.rate) / data.output;
+
+    // 回写
+    await Item.update({ invprice: price }, { where: { id } }).then(() => {
+        res.json(true);
+    })
+})
+
 // 计算生产计划
 app.post('/product', async function (req, res) {
     const data = req.body;
@@ -252,6 +314,25 @@ app.post('/product', async function (req, res) {
     })
 
     // console.log('总价值', totalSaleprice)
+
+    // 查找蓝图组件
+    const bules = await Blueprint.findAll({
+        where: {
+            BlueId: { [Op.in]: itemsData.map(m => m.id) }
+        },
+        include: [{ model: Item, as: 'SubItem' }],
+    })
+    let bulesData = bules.map(m => m.dataValues);
+    let bulesObj = {}
+    bulesData.forEach(m => {
+        if (!bulesObj[m.ItemId]) {
+            bulesObj[m.ItemId] = m;
+            bulesObj[m.ItemId].num = (m.input / m.output) * itemsData.find(f => f.id == m.BlueId).num;
+        } else {
+            bulesObj[m.ItemId].num = bulesObj[m.ItemId].num + ((m.input / m.output) * itemsData.find(f => f.id == m.BlueId).num);
+        }
+    })
+    const zujian = Object.values(bulesObj);
 
     // 查找原材料
     const materials = await Material.findAll({
@@ -282,13 +363,14 @@ app.post('/product', async function (req, res) {
         totalBuyprice,
         items: itemsData,
         data: outputData,
+        zujian,
     })
 })
 
 app.use('/', express.static('app'));
 app.listen(3002, () => console.log(`Example app listening on port 3002!`))
 
-// 启动后的任务
+// 启动后的任务 #####################################################################################################
 
 // 刷新蓝图状态
 Blueprint.findAll({
@@ -375,8 +457,15 @@ const updatePirce = (id) => {
     });
 }
 
-for (let index = 0; index < myItems.length; index++) {
-    const element = myItems[index];
-    const t = index*100
-    setTimeout(()=>{updatePirce(element)}, t)
+const autoUpdatePrice = () => {
+    for (let index = 0; index < myItems.length; index++) {
+        const element = myItems[index];
+        const t = index * 100
+        setTimeout(() => { updatePirce(element) }, t)
+    }
 }
+
+// 每小时自动刷新基础物品价格
+setInterval(() => {
+    autoUpdatePrice()
+}, 3600000)

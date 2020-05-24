@@ -12,16 +12,32 @@
 冷气持久型50MN微型跃迁推进器	1	-	-
 武士 II	2	-	-
 -->
-<page-header></page-header>
+<page-header>
+    
+</page-header>
 <div nz-row>
     <div nz-col [nzSpan]="8" style="padding-right: 10px;">
-        <textarea rows="16" nz-input [(ngModel)]="inputValue"></textarea>
+        <textarea rows="8" nz-input [(ngModel)]="inputValue"></textarea>
         <nz-divider></nz-divider>
         <button nz-button nzType="primary" (click)="submit()">计算材料</button>
         <button nz-button nzType="primary">复制材料</button>
         <h1>商品价格: {{totalSaleprice | currency:'CNY'}}</h1>
         <h1>原料价格: {{totalBuyprice | currency:'CNY'}}</h1>
-        <textarea rows="16" nz-input [(ngModel)]="outputValue"></textarea>
+        <textarea rows="8" nz-input [(ngModel)]="outputValue"></textarea>
+        <nz-table #basicTable3 [nzData]="zujian" [nzFrontPagination]='false' nzSize="small" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable3.data">
+                    <td>{{data.SubItem.name}}</td>
+                    <td>{{data.num}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
     </div>
     <div nz-col [nzSpan]="16">
         <nz-table #basicTable [nzData]="items" [nzFrontPagination]='false' nzSize="small" [nzBordered]="true">

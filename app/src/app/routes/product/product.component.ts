@@ -18,6 +18,8 @@ export class ProductComponent implements OnInit {
     items: any[] = [];
     // 原材料列表
     materialsData: any[] = [];
+    // 组件内容
+    zujian: any[] = [];
 
     totalSaleprice = 0;
     totalBuyprice = 0;
@@ -48,6 +50,7 @@ export class ProductComponent implements OnInit {
             this.totalBuyprice = result.totalBuyprice;
             this.items = result.items;
             this.materialsData = result.data;
+            this.zujian = result.zujian;
 
             this.outputValue = result.data.map(m => `${m.SubItem.name}\t${Math.ceil(m.num)}`).join(`\r\n`);
             

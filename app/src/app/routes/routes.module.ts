@@ -13,10 +13,12 @@ import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import { UserRegisterComponent } from './passport/register/register.component';
 
+import { InventionModalComponent } from './blueprint/invention.component';
 import { BlueprintListComponent } from './blueprint/list.component';
 import { MaterialModalComponent } from './blueprint/material.component';
 import { BlueprintModalComponent } from './items/blueprint.component';
 import { ItemsListComponent } from './items/list.component';
+import { PickListComponent } from './items/pick.component';
 import { ProductComponent} from './product/product.component';
 
 const COMPONENTS = [
@@ -29,9 +31,11 @@ const COMPONENTS = [
   CallbackComponent,
   UserLockComponent,
   ItemsListComponent,
+  PickListComponent,
   BlueprintListComponent,
   BlueprintModalComponent,
   MaterialModalComponent,
+  InventionModalComponent,
   ProductComponent,
 ];
 const COMPONENTS_NOROUNT = [];

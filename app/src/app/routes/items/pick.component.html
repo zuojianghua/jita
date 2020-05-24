@@ -1,0 +1,6 @@
+<page-header></page-header>
+<div class="mb-md">
+    <button nz-button (click)="getData()" [nzType]="'primary'">刷新</button>
+    <!-- <button nz-button (click)="params = {fav:true}; getData()">重置</button> -->
+</div>
+<st #st [data]="data" [columns]="columns" [page]="{front:false,show:false}"></st>

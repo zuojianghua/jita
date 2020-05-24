@@ -3,6 +3,6 @@
     名称：<input nz-input [(ngModel)]="params.name" name="name" nzPlaceHolder="请输入名称" style="width: 100px;" class="mr-sm">
     &nbsp;&nbsp;
     <button nz-button (click)="getData()" [nzType]="'primary'">搜索</button>
-    <button nz-button (click)="params = {fav:true}; getData()">重置</button>
+    <button nz-button (click)="params = {}; getData()">重置</button>
 </div>
 <st #st [data]="data" [columns]="columns" [ps]='page.ps' [pi]='page.pi' [page]="{front:false,show:true}" [total]='total' (change)="onChange($event)"></st>

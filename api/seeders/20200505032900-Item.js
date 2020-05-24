@@ -20,6 +20,7 @@ module.exports = {
             saleprice: 0,
             buyprice: 0,
             makeprice: 0,
+            invprice: 0,
             createdAt: times,
             updatedAt: times
           })
