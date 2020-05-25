@@ -133,6 +133,36 @@ export class StartupService {
                 link: '/pick/1',
                 shortcutRoot: true,
               },
+              {
+                text: '无人机',
+                link: '/pick/2',
+                shortcutRoot: true,
+              },
+              {
+                text: '采集',
+                link: '/pick/3',
+                shortcutRoot: true,
+              },
+              {
+                text: '装甲',
+                link: '/pick/4',
+                shortcutRoot: true,
+              },
+              {
+                text: '护盾',
+                link: '/pick/5',
+                shortcutRoot: true,
+              },
+              {
+                text: '武器升级',
+                link: '/pick/6',
+                shortcutRoot: true,
+              },
+              {
+                text: '炮台',
+                link: '/pick/7',
+                shortcutRoot: true,
+              },
             ]
           },
         ]
